@@ -13,30 +13,30 @@ import dict_list_utils as dlu
 
 
 def test_get_missing_keys():
-    dict_ref = ''
-    dict_to_compare = ''
-    expected = ''
+    dict_ref = {1:1, 2:2, 3:3}
+    dict_to_compare = {2:2}
+    expected = [1, 3]
     actual = dlu.get_missing_keys(dict_ref, dict_to_compare)
     assert expected == actual
 
 
 def test_get_missing_keys_with_count():
-    dict_ref = ''
-    dict_to_compare = ''
-    expected = ''
+    dict_ref = {1:1, 2:2, 3:3}
+    dict_to_compare = {2:2}
+    expected = (2, [1, 3])
     actual = dlu.get_missing_keys_with_count(dict_ref, dict_to_compare)
     assert expected == actual
 
 
 def test_get_unique():
-    in_list = ''
-    expected = ''
+    in_list = [1, 2, 3, 2, 3, 3, 2, 1]
+    expected = [1, 2, 3]
     actual = dlu.get_unique(in_list)
     assert expected == actual
 
 
 def test_flatten_list():
-    in_list = ''
-    expected = ''
+    in_list = [1, (2,3), [4,5]]
+    expected = [1, 2, 3, 4, 5]
     actual = dlu.flatten_list(in_list)
     assert expected == actual
