@@ -17,20 +17,24 @@ from world_pop_by_country import data as country_pop
 #
 country_to_pop = dict()
 
+countries = [country.split("\t") for country in country_pop.split("\n")[1:]]
 
 def get_country_count():
     """Return the number of countries in country_pop.
     NOTE:  Assume data (country_pop) will always have a header"""
+    return len(countries)
 
 
 def conv_num_with_commas(number_text):
     """Convert a number with commas (str) to a number.
        e.g. '1,000' would be converted to 1000"""
+    return int(number_text.replace(',', ''))
 
 
 def get_top_five_countries():
     """Return a list of names of the top five countries in terms of population"""
-
+    top_five = sorted(country_to_pop.items(), key=lambda x: x[1], reverse=True)[:5]
+    return [country[0] for country in top_five]
 
 def set_country_to_pop():
     """Sets the global country_to_pop dictionary where key is country name
@@ -39,9 +43,8 @@ def set_country_to_pop():
                Pop 01Jul2017 column
             2. The % decrease as a number
     """
-    countries = [country.split("\t") for country in country_pop.split("\n")[1:]]
     for country in countries:
-        population = int(country[5].replace(',', ''))
+        population = conv_num_with_commas(country[5])
         if country[6][0] == '+':
             change = country[6][1:][:-1]
         else:
@@ -50,7 +53,7 @@ def set_country_to_pop():
         country_to_pop[country[1]] = (population, change)
 
 set_country_to_pop()
-print(country_to_pop)
+print(get_top_five_countries())
 
 def get_population(country_name):
     """Given the name of the country, return the population as of 01Jul2017
@@ -61,8 +64,43 @@ def get_population(country_name):
 
 def get_continents():
     """Return the list of continents"""
+    continents_all = [country[2] for country in countries]
+    continents = []
+    for i in continents_all:
+        if i not in continents:
+            continents.append(i)
+    continents.sort()
+    return continents
+
+# print(get_continents())
 
 
 def get_continent_populations():
     """Returns a dict where the key is the name of the continent and
        the value is the total population of all countries on that continent"""
+    africa_total = 0
+    asia_total = 0
+    americas_total = 0
+    europe_total = 0
+    oceania_total = 0
+    for country in countries:
+        continent = country[2]
+        population = conv_num_with_commas(country[5])
+        if continent == 'Africa':
+            africa_total += population
+        elif continent == 'Americas':
+            americas_total += population
+        elif continent == 'Asia':
+            asia_total += population
+        elif continent == 'Europe':
+            europe_total += population
+        elif continent == 'Oceania':
+            oceania_total += population
+    populations = {
+        'Africa': africa_total,
+        'Asia': asia_total,
+        'Americas': americas_total,
+        'Europe': europe_total,
+        'Oceania': oceania_total,
+    }
+    return populations
