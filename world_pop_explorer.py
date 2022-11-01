@@ -12,16 +12,16 @@
 
 from world_pop_by_country import data as country_pop
 
-# Key = country name and 
+# Key = country name and
 # Value = population as a number (i.e. not text containing commas)
 #
 country_to_pop = dict()
 
 
 def get_country_count():
-    """Return the number of countries in country_pop.  
+    """Return the number of countries in country_pop.
     NOTE:  Assume data (country_pop) will always have a header"""
-    
+
 
 def conv_num_with_commas(number_text):
     """Convert a number with commas (str) to a number.
@@ -39,7 +39,18 @@ def set_country_to_pop():
                Pop 01Jul2017 column
             2. The % decrease as a number
     """
+    countries = [country.split("\t") for country in country_pop.split("\n")[1:]]
+    for country in countries:
+        population = int(country[5].replace(',', ''))
+        if country[6][0] == '+':
+            change = country[6][1:][:-1]
+        else:
+            change = country[6][:-1]
+        change = float(change)
+        country_to_pop[country[1]] = (population, change)
 
+set_country_to_pop()
+print(country_to_pop)
 
 def get_population(country_name):
     """Given the name of the country, return the population as of 01Jul2017
@@ -55,4 +66,3 @@ def get_continents():
 def get_continent_populations():
     """Returns a dict where the key is the name of the continent and
        the value is the total population of all countries on that continent"""
-
