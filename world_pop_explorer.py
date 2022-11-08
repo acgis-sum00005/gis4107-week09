@@ -78,29 +78,9 @@ def get_continents():
 def get_continent_populations():
     """Returns a dict where the key is the name of the continent and
        the value is the total population of all countries on that continent"""
-    africa_total = 0
-    asia_total = 0
-    americas_total = 0
-    europe_total = 0
-    oceania_total = 0
+    populations = {}
     for country in countries:
         continent = country[2]
         population = conv_num_with_commas(country[5])
-        if continent == 'Africa':
-            africa_total += population
-        elif continent == 'Americas':
-            americas_total += population
-        elif continent == 'Asia':
-            asia_total += population
-        elif continent == 'Europe':
-            europe_total += population
-        elif continent == 'Oceania':
-            oceania_total += population
-    populations = {
-        'Africa': africa_total,
-        'Asia': asia_total,
-        'Americas': americas_total,
-        'Europe': europe_total,
-        'Oceania': oceania_total,
-    }
+        populations[continent] = populations.get(continent, 0) + population
     return populations
